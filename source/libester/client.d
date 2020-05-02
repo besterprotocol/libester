@@ -4,6 +4,7 @@ import std.socket : Socket;
 import libester.execeptions;
 import std.string : cmp;
 import bmessage;
+import std.json : JSONValue;
 
 public final class BesterClient
 {
@@ -32,7 +33,18 @@ public final class BesterClient
 
     public void authenticate(string username, string password)
     {
-        sendMessage_internal();
+        /* Construct the authentication payload */
+        JSONValue payload;
+        JSONValue headerBlock;
+        JSONValue authenticationBlock;
+        authenticationBlock["username"] = username;
+        authenticationBlock["password"] = password;
+        headerBlock["authentication"] = authenticationBlock;
+        payload["header"] = headerBlock;
+
+        /* Send the message to the server */
+        /* TODO: Error handling */
+        sendMessage(serverSocket, payload);
     }
 
 
