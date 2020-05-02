@@ -1,6 +1,6 @@
 module libester.client;
 
-import std.socket : Socket;
+import std.socket : Socket, AddressFamily, SocketType, ProtocolType, parseAddress;
 import libester.execeptions;
 import std.string : cmp;
 import bmessage : receiveMessage, sendMessage;
@@ -29,6 +29,14 @@ public final class BesterClient
             /* TODO: This is an error */
             // throw new EndpointException();
         }
+    }
+
+    public void connect()
+    {
+        serverSocket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
+        serverSocket.connect(parseAddress(serverAddress, serverPort));
+
+        /* TODO: Error handling */
     }
 
     public void authenticate(string username, string password)
