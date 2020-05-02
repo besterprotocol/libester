@@ -3,7 +3,7 @@ module libester.client;
 import std.socket : Socket;
 import libester.execeptions;
 import std.string : cmp;
-import bmessage;
+import bmessage : receiveMessage, sendMessage;
 import std.json : JSONValue;
 
 public final class BesterClient
