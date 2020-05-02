@@ -36,19 +36,34 @@ public final class BesterClient
         /* Whether or not the authentication succeded */
         bool status = true;
 
-        /* Construct the authentication payload */
-        JSONValue payload;
+        /* Construct the login message */
+        JSONValue message;
+
+        /* Create the `header` block */
         JSONValue headerBlock;
+
+        /* Create the `authentication` block and attach it to the `header` block */
         JSONValue authenticationBlock;
         authenticationBlock["username"] = username;
         authenticationBlock["password"] = password;
         headerBlock["authentication"] = authenticationBlock;
-        payload["header"] = headerBlock;
+
+        /* Set the `scope` field */
+        headerBlock["scope"] = "client";
+
+        /* Add a dummy `payload` block */
+        JSONValue payloadBlock;
+        payloadBlock["data"] = null;
+        payloadBlock["type"] = "dummy"; /* TODO: Add to spec */
+        message["payload"] = payloadBlock;
+
+        /* Attach the `header` block to the payload */
+        message["header"] = headerBlock;
 
         bool netStatus;
 
         /* Send the message to the server */
-        netStatus = sendMessage(serverSocket, payload);
+        netStatus = sendMessage(serverSocket, message);
 
         if(netStatus)
         {
@@ -102,7 +117,14 @@ public final class BesterClient
 
     public void close()
     {
+        /* Whether or not the authentication succeded */
+        bool status = true;
 
+        /* Construct the authentication payload */
+        // JSONValue payload;
+        // JSONValue headerBlock;
+        // headerBlock[""]
+        // payload["header"] = headerBlock;
     }
 
 }
