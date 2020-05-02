@@ -4,7 +4,7 @@ import std.socket : Socket;
 import libester.execeptions;
 import std.string : cmp;
 import bmessage : receiveMessage, sendMessage;
-import std.json : JSONValue;
+import std.json : JSONValue, JSONException;
 
 public final class BesterClient
 {
@@ -33,6 +33,9 @@ public final class BesterClient
 
     public void authenticate(string username, string password)
     {
+        /* Whether or not the authentication succeded */
+        bool status = true;
+
         /* Construct the authentication payload */
         JSONValue payload;
         JSONValue headerBlock;
@@ -42,9 +45,64 @@ public final class BesterClient
         headerBlock["authentication"] = authenticationBlock;
         payload["header"] = headerBlock;
 
+        bool netStatus;
+
         /* Send the message to the server */
-        /* TODO: Error handling */
-        sendMessage(serverSocket, payload);
+        netStatus = sendMessage(serverSocket, payload);
+
+        if(netStatus)
+        {
+            /* Receive a response */
+            JSONValue serverResponse;
+            netStatus = receiveMessage(serverSocket, serverResponse);
+
+            if(netStatus)
+            {
+                try
+                {
+                    /* Now get the `status` block */
+                    JSONValue statusBlock = serverResponse["status"];
+
+                    /* Check the code */
+                    string statusCode = statusBlock["code"].str();
+
+                    /* Valid authentication would be "5" */
+                    if(cmp(statusCode, "5") == 0)
+                    {
+                        /* Authentication succeeded */
+                        /* TODO: Debug print */
+                    }
+                    else
+                    {
+                        /* Authentication failure */
+                        /* TODO: Debug print */
+                        status = false;
+                    }
+                }
+                catch(JSONException e)
+                {
+                    status = false;
+                }
+            }
+            else
+            {
+                status = false;
+            }
+        }
+        else
+        {
+            status = false;
+        }
+
+        if(!status)
+        {
+            /* TODO: Throw exception for failed authentication */
+        }
+    }
+
+    public void close()
+    {
+
     }
 
 
