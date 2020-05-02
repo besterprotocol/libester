@@ -8,5 +8,6 @@
 	},
 	"description": "D library for writing Bester-based applications.",
 	"license": "GPLv3",
-	"name": "libester"
+	"name": "libester",
+	"targetType": "library"
 }
