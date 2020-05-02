@@ -41,6 +41,12 @@ public final class BesterClient
 
     public void authenticate(string username, string password)
     {
+        /* Make sure we have an open connection */
+        if(serverSocket is null)
+        {
+            /* TODO: Raise exception */
+        }
+
         /* Whether or not the authentication succeded */
         bool status = true;
 
