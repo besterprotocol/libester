@@ -148,6 +148,9 @@ public final class BesterClient
 
     public void close()
     {
+        /* Make sure we have an open connection */
+        endpointConnectednessCheck();
+
         /* Whether or not the authentication succeded */
         bool status = true;
 
