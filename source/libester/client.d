@@ -29,6 +29,10 @@ public final class BesterClient
             /* TODO: This is an error */
             // throw new EndpointException();
         }
+        else if(!(serverPort >= cast(ushort)1 && serverPort <= cast(ushort)65535))
+        {
+            /*TODO: Expansion above, i think i remember correctly */
+        }
     }
 
     public void connect()
@@ -184,7 +188,6 @@ public final class BesterClient
         {
             /* TODO: Nullify */
             serverSocket = null;
-
             throw new BesterException("Error receiving message from server");
         }
 
