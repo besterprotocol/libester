@@ -56,6 +56,7 @@ public final class BesterClient
         if(serverSocket is null)
         {
             /* TODO: Raise exception */
+            throw new BesterException("Endpoint not connected");
         }
 
         /* Whether or not the authentication succeded */
