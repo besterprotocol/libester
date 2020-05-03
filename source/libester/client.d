@@ -1,6 +1,6 @@
 module libester.client;
 
-import std.socket : Socket, AddressFamily, SocketType, ProtocolType, parseAddress, SocketOSException;
+import std.socket : Socket, AddressFamily, SocketType, ProtocolType, parseAddress, SocketOSException, SocketException;
 import libester.execeptions;
 import std.string : cmp;
 import bmessage : receiveMessage, sendMessage;
@@ -18,21 +18,19 @@ public final class BesterClient
 
     this(string serverAddress, ushort serverPort)
     {
+        /* Make sure the `serverAddress` and `serverPort` are valid */
+        try
+        {
+            parseAddress(serverAddress, serverPort);
+        }
+        catch(SocketException)
+        {
+            throw new BesterException("Invalid network parameters");
+        }
+
         /* Setup endpoint */
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
-
-        /* TODO: Range check for port */
-        /* TODO: Make sure string is non-empty */
-        if(cmp(serverAddress, "") == 0)
-        {
-            /* TODO: This is an error */
-            // throw new EndpointException();
-        }
-        else if(!(serverPort >= cast(ushort)1 && serverPort <= cast(ushort)65535))
-        {
-            /*TODO: Expansion above, i think i remember correctly */
-        }
     }
 
     public void connect()
