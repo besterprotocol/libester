@@ -194,7 +194,10 @@ public final class BesterClient
 
     public void send(string type, JSONValue data)
     {
-        
+        /* Make sure we have an open connection */
+        endpointConnectednessCheck();
+
+        /* TODO: Implement me */
     }
 
     /**
