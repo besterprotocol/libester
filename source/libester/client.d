@@ -56,10 +56,16 @@ public final class BesterClient
     /**
      * Authenticates the user to the server.
      *
-     * @param username : string
-     * @param password : string
+     * The credentials to authenticate with are `username`
+     * and `password` and are both of type `string`.
+     *
+     * Throws a `BesterException` exception if the
+     * endpoint is not connected or on general error
+     * or if authentication fails.
+     *
+     * Returns a `JSONValue` struct with the status.
      */
-    public void authenticate(string username, string password)
+    public JSONValue authenticate(string username, string password)
     {
         /* Make sure we have an open connection */
         endpointConnectednessCheck();
@@ -96,10 +102,11 @@ public final class BesterClient
         /* Send the message to the server */
         netStatus = sendMessage(serverSocket, message);
 
+        JSONValue serverResponse;;
+
         if(netStatus)
         {
             /* Receive a response */
-            JSONValue serverResponse;
             netStatus = receiveMessage(serverSocket, serverResponse);
 
             if(netStatus)
@@ -142,7 +149,15 @@ public final class BesterClient
 
         if(!status)
         {
+            /* TODO: Nullify */
+            serverSocket = null;
+            
             /* TODO: Throw exception for failed authentication */
+            throw new BesterException("Authentication failed");
+        }
+        else
+        {
+            return serverResponse;
         }
     }
 
@@ -150,7 +165,10 @@ public final class BesterClient
      * Receives a message off the message queue and
      * returns it as a JSON value.
      *
-     * @returns JSONValue the dequeued message
+     * Throws a `BesterException` exception if the
+     * endpoint is not connected or on general error.
+     *
+     * Returns a `JSONValue` struct.
      */
     public JSONValue receive()
     {
@@ -179,6 +197,15 @@ public final class BesterClient
         
     }
 
+    /**
+     * Closes the active connection.
+     *
+     * Throws a `BesterException` exception if the
+     * endpoint is not connected or on general error.
+     *
+     * Returns a `JSONValue` struct with the status of
+     * the `close`.
+     */
     public JSONValue close()
     {
         /* Make sure we have an open connection */
