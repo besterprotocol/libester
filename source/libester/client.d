@@ -102,6 +102,7 @@ public final class BesterClient
         /* Send the message to the server */
         netStatus = sendMessage(serverSocket, message);
 
+        /* The server's response */
         JSONValue serverResponse;
 
         if(netStatus)
@@ -155,10 +156,8 @@ public final class BesterClient
             /* TODO: Throw exception for failed authentication */
             throw new BesterException("Authentication failed");
         }
-        else
-        {
-            return serverResponse;
-        }
+        
+        return serverResponse;
     }
 
     /**
