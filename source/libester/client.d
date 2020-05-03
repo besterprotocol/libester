@@ -44,6 +44,15 @@ public final class BesterClient
         }
     }
 
+    private void endpointConnectednessCheck()
+    {
+        if(serverSocket is null)
+        {
+            /* Raise exception */
+            throw new BesterException("Endpoint not connected");
+        }
+    }
+
     /**
      * Authenticates the user to the server.
      *
@@ -53,11 +62,7 @@ public final class BesterClient
     public void authenticate(string username, string password)
     {
         /* Make sure we have an open connection */
-        if(serverSocket is null)
-        {
-            /* TODO: Raise exception */
-            throw new BesterException("Endpoint not connected");
-        }
+        endpointConnectednessCheck();
 
         /* Whether or not the authentication succeded */
         bool status = true;
