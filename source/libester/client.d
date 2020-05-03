@@ -1,6 +1,6 @@
 module libester.client;
 
-import std.socket : Socket, AddressFamily, SocketType, ProtocolType, parseAddress;
+import std.socket : Socket, AddressFamily, SocketType, ProtocolType, parseAddress, SocketOSException;
 import libester.execeptions;
 import std.string : cmp;
 import bmessage : receiveMessage, sendMessage;
@@ -33,12 +33,23 @@ public final class BesterClient
 
     public void connect()
     {
-        serverSocket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
-        serverSocket.connect(parseAddress(serverAddress, serverPort));
-
-        /* TODO: Error handling */
+        try
+        {
+            serverSocket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
+            serverSocket.connect(parseAddress(serverAddress, serverPort));
+        }
+        catch(SocketOSException)
+        {
+            serverSocket = null;
+        }
     }
 
+    /**
+     * Authenticates the user to the server.
+     *
+     * @param username : string
+     * @param password : string
+     */
     public void authenticate(string username, string password)
     {
         /* Make sure we have an open connection */
