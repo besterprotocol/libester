@@ -146,10 +146,46 @@ public final class BesterClient
         }
     }
 
-    public void close()
+    /**
+     * Receives a message off the message queue and
+     * returns it as a JSON value.
+     *
+     * @returns JSONValue the dequeued message
+     */
+    public JSONValue receive()
     {
         /* Make sure we have an open connection */
         endpointConnectednessCheck();
+
+        /* The received message */
+        JSONValue receivedMessage;
+
+        /* TODO: Error handling; Receives a message */
+        bool receiveStatus = receiveMessage(serverSocket, receivedMessage);
+
+        if(!receiveStatus)
+        {
+            /* TODO: Nullify */
+            serverSocket = null;
+
+            throw new BesterException("Error receiving message from server");
+        }
+
+        return receivedMessage;
+    }
+
+    public void send(string type, JSONValue data)
+    {
+        
+    }
+
+    public JSONValue close()
+    {
+        /* Make sure we have an open connection */
+        endpointConnectednessCheck();
+
+        /* The received message */
+        JSONValue receivedMessage;
 
         /* Whether or not the authentication succeded */
         bool status = true;
@@ -159,6 +195,8 @@ public final class BesterClient
         // JSONValue headerBlock;
         // headerBlock[""]
         // payload["header"] = headerBlock;
+
+        return receivedMessage;
     }
 
 }
