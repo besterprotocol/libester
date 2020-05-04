@@ -198,6 +198,27 @@ public final class BesterClient
         endpointConnectednessCheck();
 
         /* TODO: Implement me */
+
+        /* Construct the `header` block */
+        JSONValue headerBlock;
+
+
+        /* Construct the `payload` block */
+        JSONValue payloadBlock;
+
+        /* Set the type */
+        payloadBlock["type"] = type;
+        
+        /* Set the data */
+        payloadBlock["data"] = data;
+
+
+        /* The message */
+        JSONValue message;
+        message["header"] = headerBlock;
+        message["payload"] = payloadBlock;
+
+        sendMessage(serverSocket, message);
     }
 
     /**
