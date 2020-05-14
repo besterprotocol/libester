@@ -118,7 +118,7 @@ public final class BesterClient
                 try
                 {
                     /* Now get the `status` block */
-                    JSONValue statusBlock = serverResponse["status"];
+                    JSONValue statusBlock = serverResponse["header"]["status"];
 
                     /* Check the code */
                     string statusCode = statusBlock.str();
