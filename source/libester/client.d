@@ -191,7 +191,7 @@ public final class BesterClient
         return receivedMessage;
     }
 
-    public void send(string type, JSONValue data)
+    public void send(string type, JSONValue data, string id)
     {
         /* Make sure we have an open connection */
         endpointConnectednessCheck();
@@ -211,6 +211,9 @@ public final class BesterClient
         /* Set the data */
         payloadBlock["data"] = data;
 
+        /* Set the id */
+        payloadBlock["id"] = id;
+
 
         /* The message */
         JSONValue message;
@@ -218,6 +221,8 @@ public final class BesterClient
         message["payload"] = payloadBlock;
 
         sendMessage(serverSocket, message);
+
+        /* TODO: Add status report code here */
     }
 
     /**
