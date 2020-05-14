@@ -94,6 +94,7 @@ public final class BesterClient
         JSONValue payloadBlock;
         payloadBlock["data"] = null;
         payloadBlock["type"] = "dummy"; /* TODO: Add to spec */
+        //payloadBlock["id"] = "auth_special";
         message["payload"] = payloadBlock;
 
         /* Attach the `header` block to the payload */
@@ -123,7 +124,7 @@ public final class BesterClient
                     string statusCode = statusBlock["code"].str();
 
                     /* Valid authentication would be "5" */
-                    if(cmp(statusCode, "5") == 0)
+                    if(cmp(statusCode, "good") == 0)
                     {
                         /* Authentication succeeded */
                         /* TODO: Debug print */
