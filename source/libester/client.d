@@ -121,7 +121,7 @@ public final class BesterClient
                     JSONValue statusBlock = serverResponse["status"];
 
                     /* Check the code */
-                    string statusCode = statusBlock["code"].str();
+                    string statusCode = statusBlock.str();
 
                     /* Valid authentication would be "5" */
                     if(cmp(statusCode, "good") == 0)
