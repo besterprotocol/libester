@@ -67,7 +67,7 @@ public final class BesterClient
      *
      * Returns a `JSONValue` struct with the status.
      */
-    public bool authenticate(string username, string password)
+    public void authenticate(string username, string password)
     {
         /* Make sure we have an open connection */
         endpointConnectednessCheck();
@@ -159,8 +159,6 @@ public final class BesterClient
             /* TODO: Throw exception for failed authentication */
             throw new BesterException("Authentication failed");
         }
-        
-        return status;
     }
 
     /**
