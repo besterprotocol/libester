@@ -6,7 +6,7 @@ public class BesterException : Exception
 {
     this(string message)
     {
-        super("");
+        super(message);
     }
 }
 
